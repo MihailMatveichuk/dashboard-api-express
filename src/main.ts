@@ -10,7 +10,7 @@ import { IUserController } from "./users/users.controller.interface";
 
 export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
   bind<ILogger>(TYPES.ILogger).to(LoggerService);
-  bind<IExeptionFilter>(TYPES.ExeptionFilter).to(ExeptionFilter);
+  bind<IExeptionFilter>(TYPES.IExeptionFilter).to(ExeptionFilter);
   bind<IUserController>(TYPES.IUserController).to(UserController);
   bind<App>(TYPES.Application).to(App);
 });
