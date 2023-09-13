@@ -6,6 +6,7 @@
   "type": "commonjs",
   "scripts": {
     "start": " node dist/main.js",
+    "dev": "nodemon",
     "lint": "eslint ./src/**",
     "lint:fix": "eslint ./src/** --fix",
     "build": "tsc",
@@ -27,7 +28,9 @@
     "eslint": "^8.49.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
+    "nodemon": "^3.0.1",
     "prettier": "^3.0.3",
+    "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   }
 }
