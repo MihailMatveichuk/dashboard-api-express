@@ -9,6 +9,8 @@ import { IExeptionFilter } from './errors/exeption.filter.interface';
 import { IUserController } from './users/users.controller.interface';
 import { UserService } from './users/users.service';
 import { IUserService } from './users/users.service.interface';
+import { IConfigService } from './config/config.service.interface';
+import { ConfigService } from './config/config.service';
 
 interface IBootstrap {
 	appContainer: Container;
@@ -19,6 +21,7 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 	bind<IExeptionFilter>(TYPES.IExeptionFilter).to(ExeptionFilter);
 	bind<IUserService>(TYPES.IUserService).to(UserService);
 	bind<IUserController>(TYPES.IUserController).to(UserController);
+	bind<IConfigService>(TYPES.IConfigService).to(ConfigService);
 	bind<App>(TYPES.Application).to(App);
 });
 
