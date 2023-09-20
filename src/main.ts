@@ -11,17 +11,22 @@ import { UserService } from './users/users.service';
 import { IUserService } from './users/users.service.interface';
 import { IConfigService } from './config/config.service.interface';
 import { ConfigService } from './config/config.service';
+import { PrismaService } from '../database/prisma.service';
+import { UsersRepository } from './users/users.repositiry';
+import { IUserRepository } from './users/users.repository.interface';
 
 interface IBootstrap {
 	appContainer: Container;
 	app: App;
 }
 export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
-	bind<ILogger>(TYPES.ILogger).to(LoggerService);
-	bind<IExeptionFilter>(TYPES.IExeptionFilter).to(ExeptionFilter);
-	bind<IUserService>(TYPES.IUserService).to(UserService);
-	bind<IUserController>(TYPES.IUserController).to(UserController);
-	bind<IConfigService>(TYPES.IConfigService).to(ConfigService);
+	bind<ILogger>(TYPES.ILogger).to(LoggerService).inSingletonScope();
+	bind<IExeptionFilter>(TYPES.IExeptionFilter).to(ExeptionFilter).inSingletonScope();
+	bind<IUserService>(TYPES.IUserService).to(UserService).inSingletonScope();
+	bind<IUserController>(TYPES.IUserController).to(UserController).inSingletonScope();
+	bind<IConfigService>(TYPES.IConfigService).to(ConfigService).inSingletonScope();
+	bind<PrismaService>(TYPES.PrismaService).to(PrismaService).inSingletonScope();
+	bind<IUserRepository>(TYPES.UsersRepository).to(UsersRepository).inSingletonScope();
 	bind<App>(TYPES.Application).to(App);
 });
 

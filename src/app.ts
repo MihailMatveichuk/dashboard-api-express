@@ -8,6 +8,8 @@ import { IExeptionFilter } from './errors/exeption.filter.interface';
 import { json } from 'body-parser';
 import { IConfigService } from './config/config.service.interface';
 import 'reflect-metadata';
+import { PrismaService } from '../database/prisma.service';
+import { IUserRepository } from './users/users.repository.interface';
 
 @injectable()
 export class App {
@@ -20,6 +22,8 @@ export class App {
 		@inject(TYPES.IUserController) private userController: UserController,
 		@inject(TYPES.IExeptionFilter) private exeptionFilter: IExeptionFilter,
 		@inject(TYPES.IConfigService) private configService: IConfigService,
+		@inject(TYPES.PrismaService) private prismaService: PrismaService,
+		@inject(TYPES.UsersRepository) private usersRepository: IUserRepository,
 	) {
 		this.app = express();
 		this.port = 8000;
@@ -41,6 +45,7 @@ export class App {
 		this.useMiddleware();
 		this.useRoutes();
 		this.useExeptionFilters();
+		await this.prismaService.connect();
 		this.server = this.app.listen(this.port);
 		this.logger.log(`Server was launched on http://localhost:${this.port}`);
 	}
