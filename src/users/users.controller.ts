@@ -8,14 +8,17 @@ import { IUserController } from './users.controller.interface';
 import { UserLoginDto } from './dto/user-login.dto';
 import { UserRegisterDto } from './dto/user-register.dto';
 import { IUserService } from './users.service.interface';
-import 'reflect-metadata';
 import { ValidateMiddleware } from '../common/validate.middleware';
+import { sign } from 'jsonwebtoken';
+import 'reflect-metadata';
+import { IConfigService } from '../config/config.service.interface';
 
 @injectable()
 export class UserController extends BaseController implements IUserController {
 	constructor(
 		@inject(TYPES.ILogger) private loggerService: ILogger,
 		@inject(TYPES.IUserService) private userService: IUserService,
+		@inject(TYPES.IConfigService) private configService: IConfigService,
 	) {
 		super(loggerService);
 		this.bindRoutes([
@@ -41,7 +44,10 @@ export class UserController extends BaseController implements IUserController {
 	): Promise<void> {
 		const result = await this.userService.validateUser(req.body);
 		if (!result) next(new HttpError(401, 'Error of authorization', 'login'));
-		else this.ok(res, {});
+		else {
+			const JWT = await this.signJWT(req.body.email, this.configService.get('SECRET'));
+			this.ok(res, { JWT });
+		}
 	}
 
 	async register(
@@ -54,5 +60,26 @@ export class UserController extends BaseController implements IUserController {
 			return next(new HttpError(422, 'This user is already existed'));
 		}
 		this.ok(res, { email: result.email, id: result.id });
+	}
+
+	private signJWT(email: string, secret: string): Promise<string> {
+		return new Promise<string>((res, rej) => {
+			sign(
+				{
+					email,
+					iat: Math.floor(Date.now() / 1000),
+				},
+				secret,
+				{
+					algorithm: 'HS256',
+				},
+				(err, token) => {
+					if (err) {
+						rej(err);
+					}
+					res(token as string);
+				},
+			);
+		});
 	}
 }
