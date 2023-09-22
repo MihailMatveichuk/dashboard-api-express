@@ -1,6 +1,6 @@
 import { IMiddleware } from './middleware.interface';
 import { Request, Response, NextFunction } from 'express';
-import { JwtPayload, verify } from 'jsonwebtoken';
+import { verify } from 'jsonwebtoken';
 
 interface IDecoded {
 	email: string;
@@ -19,7 +19,8 @@ export class AuthMiddleware implements IMiddleware {
 					next();
 				}
 			});
+		} else {
+			next();
 		}
-		next();
 	}
 }
