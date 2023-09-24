@@ -12,7 +12,8 @@
     "lint": "eslint ./src/**",
     "lint:fix": "eslint ./src/** --fix",
     "build": "tsc",
-    "test": "jest"
+    "test": "jest",
+    "test:e2e": "jest --config jest.e2e.config.ts --coverage"
   },
   "author": "Mikhail Matveichuk",
   "license": "ISC",
@@ -35,6 +36,7 @@
     "@types/inversify": "^2.0.33",
     "@types/jest": "^29.5.5",
     "@types/jsonwebtoken": "^9.0.3",
+    "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^6.7.0",
     "@typescript-eslint/parser": "^6.7.0",
     "eslint": "^8.49.0",
@@ -44,6 +46,7 @@
     "nodemon": "^3.0.1",
     "prettier": "^3.0.3",
     "prisma": "^5.3.1",
+    "supertest": "^6.3.3",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
